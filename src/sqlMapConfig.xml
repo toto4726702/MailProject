@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>   
+<!DOCTYPE sqlMapConfig    
+PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"    
+       "http://www.ibatis.com/dtd/sql-map-config-2.dtd">   
+<sqlMapConfig>   
+
+  
+  <properties  resource="jdbc.properties"/>
+  
+  <transactionManager type="JDBC"><!--  定义了ibatis的事务管理器有3中（JDBC,JTA,EXTERNAL） -->  
+	   <dataSource type="SIMPLE"> <!-- type属性指定了数据源的链接类型，也有3种类型(SIMPLE,DBCP,JNDI ) -->  
+	    <property name="JDBC.Driver" value="${jdbc.driver}"/>   
+	    <property name="JDBC.ConnectionURL" value="${jdbc.url}"/>   
+	    <property name="JDBC.Username" value="${jdbc.username}"/>   
+	    <property name="JDBC.Password" value="${jdbc.password}"/>   
+	   </dataSource>   
+  </transactionManager>
+
+  <sqlMap resource="cn/edu/shiep/entity/LoginUserSql.xml"/>
+
+</sqlMapConfig>   

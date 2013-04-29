@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="false" />
+
+    <package name="base" extends="struts-default" namespace="/" >
+    	   <action name= "vince" class="cn.edu.shiep.actions.VinceAction">
+               <result name="success" >/WEB-INF/content/vince.jsp </result>
+           </action>
+    </package>
+    
+    <package name="data" extends="json-default" namespace="/data" />
+    
+</struts>
