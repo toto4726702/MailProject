@@ -1,0 +1,12 @@
+.divbox{
+	border-radius:4px;
+	border:1px solid #D0D0D0;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	word-break: break-all;
+	word-wrap: break-word;
+	background-color: whiteSmoke;
+	
+	display: block;
+	padding: 8.5px;
+}

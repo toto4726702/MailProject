@@ -1,0 +1,26 @@
+.carouselWord {
+	color: #FFFFFF;
+	text-align: center;
+}
+
+.commenArea {
+	height: 180px;
+}
+
+.spanCenter {
+	text-align: center;
+}
+
+.spanLeft {
+	text-align: center;
+}
+
+#commentCommit {
+	height: 40px;
+	width: 140px;
+}
+
+#commentClear {
+	height: 40px;
+	width: 80px;
+}
