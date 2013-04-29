@@ -10,4 +10,4 @@
 
 操作示例：
 
-$ git clone git://github.com/toto4726702/HelloGit.git
+$ git clone git://github.com/toto4726702/MailProject.git
