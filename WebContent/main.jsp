@@ -172,9 +172,9 @@
 	            </div>
 	            <div id="maniArea">
 	            	<div id="maniSendMail">
-	            	 	 <a class="btn btn-primary"><i class="fui-checkmark-16"></i> <span>发送</span></a>
+	            	 	 <a class="btn btn-primary" onclick="sendMail()"><i class="fui-checkmark-16"></i> <span>发送</span></a>
 		           	     <br/><br/>
-		           	     <a class="btn"><i class="icon-folder-open icon-white"></i> <span>存为草稿</span></a>
+		           	     <a class="btn" onclick="openDraftModal()"><i class="icon-folder-open icon-white"></i> <span>存为草稿</span></a>
 		           	     <br/><br/>
 		           	     <a class="btn"><i class="icon-fire icon-white"></i> <span>舍弃</span></a>
 		           	     <a class="btn disabled"><i class="fui-settings-16"></i> <span>设置</span></a>  
@@ -298,7 +298,7 @@
 			     <input name="copyTo" type="text" value="" placeholder="Copy" class="span9">
 			     <input name="title" type="text" value="" placeholder="Title" class="span9">
 			     
-			     <a id="lock" class="btn btn-danger" onclick="openModal()" ><i class="fui-lock-16"></i></a> 
+			     <a id="lock" class="btn btn-danger" onclick="openLockModal()" ><i class="fui-lock-16"></i></a> 
 			     <a id="important" class="btn btn-danger" onclick="setImportant()"><i class="fui-heart-16"></i></a> 
 			     <a id="location" class="btn disabled" ><i class="fui-location-16"></i></a> 
 			     <a id="attachment" class="btn disabled" ><i class="fui-plus-16"></i></a> 
@@ -320,19 +320,34 @@
 		      
   		</div>
   		
-  		<!-- Modal -->
-		<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  		<!-- LockModal -->
+		<div id="lockModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-header">
 		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		    <h3 id="myModalLabel">Really Confidential?</h3>
+		    <h2 id="myModalLabel">是否需要加密?</h2>
 		  </div>
 		  <div class="modal-body">
-		    <p>Please enter the unlock password:</p>
+		    <p>请输入加密密码:</p>
 		    <input id="passwd" type="password" placeholder="Password" class="span4">
+		    
 		  </div>
 		  <div class="modal-footer">
-		    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-		    <button class="btn btn-primary" data-dismiss="modal" onclick="lockMail()">Confirm</button>
+		    <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+		    <button class="btn btn-primary" data-dismiss="modal" onclick="lockMail()">确认</button>
+		  </div>
+		</div>
+		
+		<!-- Modal -->
+		<div id="draftModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h2 id="myModalLabel">确认保存为草稿</h2>
+		  </div>
+		  <div class="modal-body">
+		    <p>已保存</p>
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn" data-dismiss="modal" aria-hidden="true">我知道了</button>
 		  </div>
 		</div>
     	
@@ -399,8 +414,12 @@
      });
    	 
  
-    function openModal(){
-    	$('#myModal').modal('show');
+    function openLockModal(){
+    	$('#lockModal').modal('show');
+    }
+    
+    function openDraftModal(){
+    	$('#draftModal').modal('show');
     }
  	
  	function lockMail(){
@@ -434,6 +453,21 @@
    			 $("#center-view-writemail").fadeIn("slow");
    		 });
    		 
+   	 }
+   	 
+   	 function sendMail(){
+   		 $.ajax({
+   		   url:'ajaxSendMailAction'
+   		   ,type:'POST'
+   		   ,data:'username=a&password=b'
+   		   ,success:function(data){
+   			   alert(data);
+   		   }
+   		   ,error:function(){alert('发生错误');}
+   		});
+   		   /*form1.action="test/cityUserAction!saveAccess.action";
+   		   document.form1.submit();
+   		   window.parent.closeform();*/
    	 }
    	 
    </script>
