@@ -69,6 +69,22 @@
 			padding: 19px 25px 20px;
 		}
 		
+		#maniArea div a{
+			height: 40px;
+			margin-right: 6px;
+		}
+		
+		#maniArea div a span{
+			position:relative;
+			font-size: 15px;
+			top: 10px;
+		}
+		
+		#maniArea div a i{
+			position:relative;
+			top: 12px;
+		}
+		
 		.maniButton{
 			background: #BDC3C7;
 			width:30px;
@@ -155,8 +171,16 @@
 	              <i class="icon-wrench icon-white" style="margin-top:2px;margin-right:5px;"></i>
 	            </div>
 	            <div id="maniArea">
-	              <div class="maniButton"></div>
-	              
+	            	<div id="maniSendMail">
+	            	 	 <a class="btn btn-primary"><i class="fui-checkmark-16"></i> <span>发送</span></a>
+		           	     <br/><br/>
+		           	     <a class="btn"><i class="icon-folder-open icon-white"></i> <span>存为草稿</span></a>
+		           	     <br/><br/>
+		           	     <a class="btn"><i class="icon-fire icon-white"></i> <span>舍弃</span></a>
+		           	     <a class="btn disabled"><i class="fui-settings-16"></i> <span>设置</span></a>  
+	            		 <br/><br/>
+	            		 <input name="tagsinput" id="tagsinput" class="tagsinput" value="" style="display: none;">
+	            	</div>       
 	            </div>
             </div>
   			<br/>
@@ -269,15 +293,20 @@
   		</div>
   		
   		<div id="center-view-writemail" class="span9" style="display: none;">
-		      <form action="sendMail">
+		      <form id="sendMailForm" action="sendMail">
 			     <input name="sendTo" type="text" value="" placeholder="Send" class="span9">
 			     <input name="copyTo" type="text" value="" placeholder="Copy" class="span9">
 			     <input name="title" type="text" value="" placeholder="Title" class="span9">
-			     <a id="lock" class="btn btn-danger" onclick="openModal()" ><i class="fui-lock-16"></i></a>
+			     
+			     <a id="lock" class="btn btn-danger" onclick="openModal()" ><i class="fui-lock-16"></i></a> 
+			     <a id="important" class="btn btn-danger" onclick="setImportant()"><i class="fui-heart-16"></i></a> 
+			     <a id="location" class="btn disabled" ><i class="fui-location-16"></i></a> 
+			     <a id="attachment" class="btn disabled" ><i class="fui-plus-16"></i></a> 
+			     
 			     <input id="lockPass" name="lockPass" type="hidden" value="">
+			     <input id="importantMail" name="importantMail" type="hidden" value="false">
 			     <br/><br/>
 			     <textarea name="content" id="myarea"  class="span9"></textarea>
-			     <input type="submit" >
 		  	  </form>
   		</div>
     
@@ -329,7 +358,8 @@
    <script src="js/custom_radio.js"></script>
    <!-- Loading CKEditor -->
    <script type="text/javascript" src="js/editor/ckeditor.js"></script>
-
+   <!-- Loading Tags -->
+   <script src="js/jquery.tagsinput.js"></script>
    <script type="text/javascript">
    	 //Initialize UI Components
      $(function(){
@@ -340,12 +370,28 @@
     	 
         // $('#loginTab').tab('show');
         
-        //Tooltips
+        //Tooltips 
    	 	$('#lock').tooltip({
    	 		title:"Password Protect",
    	 		placement:"top"
    	 	});
+   	 	$('#important').tooltip({
+	 		title:"Important Mail",
+	 		placement:"top"
+	 	});
+   	 	$('#location').tooltip({
+	 		title:"Where I am",
+	 		placement:"top"
+	 	});
+   		$('#attachment').tooltip({
+	 		title:"Add Attachment",
+	 		placement:"top"
+	 	});
         
+        //Tags 
+        $("#tagsinput").tagsInput();
+        
+        //CKEditor 
    		CKEDITOR.replace('myarea', {
    	 		language: 'zh-cn'
    	 	});
@@ -367,6 +413,19 @@
  			$("#lock").attr("class","btn btn-success");
  		}
  		$("#lockPass").val(pass);
+ 	}
+ 	
+ 	function setImportant(){
+ 		var imp = $("#importantMail").val();
+ 		if(imp=="true"){
+ 			//改变颜色并修改pass
+ 			$("#important").attr("class","btn btn-danger");
+ 			imp = "false";
+ 		}else{
+ 			$("#important").attr("class","btn btn-success");
+ 			imp = "true";
+ 		}
+ 		$("#importantMail").val(imp);
  	}
    	 
    	 function showSendMail(){
