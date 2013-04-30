@@ -11,7 +11,7 @@ public class MainAction {
 
 	@Action(value="mainAction",results={
 			@Result(name=ResultType.FAILURE,location="/login.jsp",type="redirect"),
-			@Result(name=ResultType.SUCCESS,location="main.jsp")})
+			@Result(name=ResultType.SUCCESS,location="/main.jsp")})
 	public String execute() throws UnsupportedEncodingException{
 
 		System.out.println("MainAction:passed!");
