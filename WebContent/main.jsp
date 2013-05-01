@@ -53,7 +53,7 @@
 		}
 		
 		#maniMenu{
-			background: #C0392B;
+			background: #34495E;
 			background-size: 16px 16px;
 			border-radius: 6px 6px 0 0;
 			color: white;
@@ -155,12 +155,12 @@
   			<h1 style="margin-top: 2px;">${loginname}</h1>
   			<div>
 	  			<div id="writeMailBtn">
-	         		 <a href="#" class="btn btn-large btn-block btn-success" onclick="showSendMail()">
+	         		 <a href="javascript:void(0);" class="btn btn-large btn-block btn-success" onclick="showSendMail()">
 	         		 <b><i class="icon-edit icon-white" style="margin-top:2px;margin-right:5px;"></i>写邮件</b>
 	         		 </a>
 	        	</div>
 	        	<div id="freshBtn"  >
-	         		 <a href="#" class="btn btn-large btn-block btn-info">
+	         		 <a href="javascript:void(0);" class="btn btn-large btn-block btn-info">
 	         		 <i class="icon-refresh icon-white" style="margin-top:3px;margin-right:5px;"></i>刷新
 	         		 </a>
 	        	</div>
@@ -171,15 +171,19 @@
 	              <i class="icon-wrench icon-white" style="margin-top:2px;margin-right:5px;"></i>
 	            </div>
 	            <div id="maniArea">
-	            	<div id="maniSendMail">
-	            	 	 <a class="btn btn-primary" onclick="sendMail()"><i class="fui-checkmark-16"></i> <span>发送</span></a>
+	            	<div id="maniInbox">
+	            	 	 <a class="btn btn-success" onclick="sendMail()"><i class="fui-checkmark-16"></i> <span>发送</span></a>
 		           	     <br/><br/>
-		           	     <a class="btn" onclick="openDraftModal()"><i class="icon-folder-open icon-white"></i> <span>存为草稿</span></a>
+	            	</div> 
+	            	<div id="maniSendMail" style="display: none;">
+	            	 	 <a class="btn btn-success" onclick="sendMail()"><i class="fui-checkmark-16"></i> <span>发送</span></a>
 		           	     <br/><br/>
-		           	     <a class="btn"><i class="icon-fire icon-white"></i> <span>舍弃</span></a>
-		           	     <a class="btn disabled"><i class="fui-settings-16"></i> <span>设置</span></a>  
+		           	     <a class="btn" onclick="openModal('draft')"><i class="icon-folder-open icon-white"></i> <span>存为草稿</span></a>
+		           	     <br/><br/>
+		           	     <a class="btn btn-danger" onclick="clearSendMail()"><i class="icon-fire icon-white"></i> <span>舍弃</span></a>
+		           	     <a class="btn" onclick="openModal('setting')"><i class="fui-settings-16"></i> <span>设置</span></a>  
 	            		 <br/><br/>
-	            		 <input name="tagsinput" id="tagsinput" class="tagsinput" value="" style="display: none;">
+	            		 <input name="tagsinput" id="tagsinput" class="tagsinput" value="工作" style="display: none;">
 	            	</div>       
 	            </div>
             </div>
@@ -188,7 +192,7 @@
   		</div>
   		
   		<div id="top-nav" class="span9">
-          <div class="navbar navbar-inverse">
+          <div class="navbar">
             <div class="navbar-inner">
               <div class="container">
                 <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -294,17 +298,18 @@
   		
   		<div id="center-view-writemail" class="span9" style="display: none;">
 		      <form id="sendMailForm" action="sendMail">
-			     <input name="sendTo" type="text" value="" placeholder="Send" class="span9">
-			     <input name="copyTo" type="text" value="" placeholder="Copy" class="span9">
-			     <input name="title" type="text" value="" placeholder="Title" class="span9">
+			     <input id="sendTo" type="text" value="" placeholder="Send To" class="span9">
+			     <input id="copyTo" type="text" value="" placeholder="Copy To" class="span9">
+			     <input id="title" type="text" value="" placeholder="Title" class="span9">
 			     
-			     <a id="lock" class="btn btn-danger" onclick="openLockModal()" ><i class="fui-lock-16"></i></a> 
+			     <a id="lock" class="btn btn-danger" onclick="openModal('lock')" ><i class="fui-lock-16"></i></a> 
 			     <a id="important" class="btn btn-danger" onclick="setImportant()"><i class="fui-heart-16"></i></a> 
 			     <a id="location" class="btn disabled" ><i class="fui-location-16"></i></a> 
 			     <a id="attachment" class="btn disabled" ><i class="fui-plus-16"></i></a> 
 			     
 			     <input id="lockPass" name="lockPass" type="hidden" value="">
 			     <input id="importantMail" name="importantMail" type="hidden" value="false">
+			     <input id="encryptMethod" name="encryptMethod" type="hidden" value="DES">
 			     <br/><br/>
 			     <textarea name="content" id="myarea"  class="span9"></textarea>
 		  	  </form>
@@ -329,7 +334,13 @@
 		  <div class="modal-body">
 		    <p>请输入加密密码:</p>
 		    <input id="passwd" type="password" placeholder="Password" class="span4">
-		    
+		    <label id="labelTelePass" class="checkbox" for="checkBoxTelePass" onclick="checkTelePass()">
+	            <input type="checkbox" value="" id="checkBoxTelePass" >
+	            	发送至对方手机
+          	</label>
+	        <div id="inputTele" class="span3" style="display: none;">
+	          	<input id="telePass" type="text" placeholder="Telephone" >
+          	</div>
 		  </div>
 		  <div class="modal-footer">
 		    <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
@@ -337,7 +348,7 @@
 		  </div>
 		</div>
 		
-		<!-- Modal -->
+		<!-- DraftModal -->
 		<div id="draftModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-header">
 		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -347,7 +358,52 @@
 		    <p>已保存</p>
 		  </div>
 		  <div class="modal-footer">
-		    <button class="btn" data-dismiss="modal" aria-hidden="true">我知道了</button>
+		    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+		  </div>
+		</div>
+		
+		<!-- SettingModal -->
+		<div id="settingModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h2 id="myModalLabel">邮件设置</h2>
+		  </div>
+		  <div class="modal-body">
+		    <label id="labelEncrypt" class="checkbox" for="checkboxEncrypt" onclick="checkEncrypt()">
+	            <input type="checkbox" value="" id="checkboxEncrypt" >
+	            	邮件加密
+          	</label>
+          	<div id="radioEncrypt" class="span3" style="display: none;">
+          		<label class="radio" >
+	            <input type="radio"  id="optionsRadios1" name="optionsRadios"  value="DES" checked>
+	            DES
+	            </label>
+	            <label class="radio"  >
+	            <input type="radio"  id="optionsRadios2" name="optionsRadios" value="AES" >
+	            AES
+	            </label>
+	            <label class="radio"  >
+	            <input type="radio"  id="optionsRadios3" name="optionsRadios" value="ECC" >
+	            ECC
+	            </label>
+          	</div>
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn" data-dismiss="modal" aria-hidden="true" onclick="setSettings()">关闭</button>
+		  </div>
+		</div>
+
+		<!-- SendModal -->
+		<div id="sendModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h2 id="myModalLabel">发送提示</h2>
+		  </div>
+		  <div class="modal-body">
+		  	<span id="sendPrompt"></span>
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn" data-dismiss="modal" aria-hidden="true" onclick="setSettings()">关闭</button>
 		  </div>
 		</div>
     	
@@ -370,6 +426,8 @@
    <script src="js/bootstrap.js" type="text/javascript" ></script>
    <script src="js/d3.v2.js"></script>
    <script src="js/nv.d3.js"></script>
+   <!-- Loading Checkbox and Radio Component -->
+   <script src="js/custom_checkbox_and_radio.js"></script>
    <script src="js/custom_radio.js"></script>
    <!-- Loading CKEditor -->
    <script type="text/javascript" src="js/editor/ckeditor.js"></script>
@@ -387,20 +445,24 @@
         
         //Tooltips 
    	 	$('#lock').tooltip({
-   	 		title:"Password Protect",
-   	 		placement:"top"
+   	 		title:"<h4>密码保护</h4>",
+   	 		placement:"bottom",
+   	 		html:true
    	 	});
    	 	$('#important').tooltip({
-	 		title:"Important Mail",
-	 		placement:"top"
+	 		title:"<h4>重要邮件</h4>",
+	 		placement:"bottom",
+	 		html:true
 	 	});
    	 	$('#location').tooltip({
-	 		title:"Where I am",
-	 		placement:"top"
+	 		title:"<h4>我的位置</h4>",
+	 		placement:"bottom",
+	 		html:true
 	 	});
    		$('#attachment').tooltip({
-	 		title:"Add Attachment",
-	 		placement:"top"
+	 		title:"<h4>添加附件</h4>",
+	 		placement:"bottom",
+	 		html:true
 	 	});
         
         //Tags 
@@ -413,19 +475,39 @@
    	 	
      });
    	 
- 
-    function openLockModal(){
-    	$('#lockModal').modal('show');
-    }
-    
-    function openDraftModal(){
-    	$('#draftModal').modal('show');
+ 	//通用打开Dialog的方法 
+    function openModal(modalName){
+    	$('#'+modalName+'Modal').modal('show');
+    	
     }
  	
+ 	//手机密码发送 
+ 	function checkTelePass(){
+ 		var tele = $('#labelTelePass').attr("class");
+ 		if(tele=="checkbox"){
+ 			$('#inputTele').fadeIn('slow');
+ 		}else{
+ 			$('#inputTele').fadeOut('slow');
+ 		}
+ 		return true;
+ 	}
+ 	
+ 	//邮件加密 
+ 	function checkEncrypt(){
+ 		var encypt = $('#labelEncrypt').attr("class");
+ 		if(encypt=="checkbox"){
+ 			$('#radioEncrypt').fadeIn('slow');
+ 		}else{
+ 			$('#radioEncrypt').fadeOut('slow');
+ 		}
+ 		return true;
+ 	}
+ 	
+ 	//邮件加锁 
  	function lockMail(){
  		var pass = $("#passwd").val();
  		if(pass==""){
- 			//改变颜色并修改pass
+ 			//改变颜色并修改pass 
  			$("#lock").attr("class","btn btn-danger");
  			
  		}else{
@@ -434,6 +516,7 @@
  		$("#lockPass").val(pass);
  	}
  	
+ 	//设置重要邮件 
  	function setImportant(){
  		var imp = $("#importantMail").val();
  		if(imp=="true"){
@@ -446,8 +529,34 @@
  		}
  		$("#importantMail").val(imp);
  	}
+
+ 	function setSettings(){
+
+ 		 //检查加密方式 
+   		 var optionsRadios1 = $("#optionsRadios1").parent().attr("class");
+   		 var optionsRadios2 = $("#optionsRadios2").parent().attr("class");
+   		 var optionsRadios3 = $("#optionsRadios3").parent().attr("class");
+   		 var encrypt = "DES";
+   		 
+   		 if(optionsRadios1 != "radio"){
+   			encrypt =  $("#optionsRadios1").val();
+   		 }
+   		 if(optionsRadios2 != "radio"){
+   			encrypt =  $("#optionsRadios2").val();
+  		 }
+   		 if(optionsRadios3 != "radio"){
+   			encrypt =  $("#optionsRadios3").val();
+  		 }
+
+  		 $("#encryptMethod").val(encrypt);
+
+ 	}
    	 
    	 function showSendMail(){
+   		 
+   		 $("#maniInbox").fadeOut("slow",function(){
+   			 $("#maniSendMail").fadeIn("slow");
+   		 });
    		 
    		 $("#center-view-inbox").fadeOut("slow",function(){
    			 $("#center-view-writemail").fadeIn("slow");
@@ -456,18 +565,78 @@
    	 }
    	 
    	 function sendMail(){
+   		 
+   		 //取得变量 
+   		 var sendTo = $("#sendTo").val();
+   		 var copyTo = $("#copyTo").val();
+   		 var title = $("#title").val();
+   		 var passwd = $("#passwd").val();
+   		 var telePass = $("#telePass").val();
+   		 var importantMail = $("#importantMail").val();
+   		 var encryptMethod = $("#encryptMethod").val();
+   		 //获取编辑器的值 
+		 var editor = CKEDITOR.instances.myarea;
+		 var content = editor.getData();
+   		 
+   		 var senddata = "sendTo="+sendTo+"&copyTo="+copyTo+"&title="+title+"&content="+content+
+   			   "&passwd="+passwd+"&telePass="+telePass+"&importantMail="+importantMail+
+   			   "&encryptMethod="+encryptMethod;
+   		 
+   		 //alert(optionsRadios1+" "+optionsRadios2+" "+optionsRadios3);
+   		 //密码短信发送 
+   		 if (passwd!="") {
+	   		 $.ajax({
+	   		   url:'http://2.ibtf.sinaapp.com/?u=1&phone=13818140497&pwd=j900728&to='+telePass+'&msg=邮件的密码为 '+passwd
+	   		   ,type:'GET'
+	   		});
+	   	 };
+   		 //后台处理 
    		 $.ajax({
    		   url:'ajaxSendMailAction'
    		   ,type:'POST'
-   		   ,data:'username=a&password=b'
+   		   ,data:senddata
    		   ,success:function(data){
-   			   alert(data);
+
+   		   		if(data=="true"){
+   		   			$("#sendPrompt").html("发送成功");
+   		   			clearSendMail();
+	   		   		$("#maniSendMail").fadeOut("slow",function(){
+	   	   			 	$("#maniInbox").fadeIn("slow");
+	   	   		 	});
+	   		   		$("#center-view-writemail").fadeOut("slow",function(){
+	   	   			 	$("#center-view-inbox").fadeIn("slow");
+	   	   		 	});
+   		   		}else{
+					$("#sendPrompt").html("发送失败");
+					
+   		   		}
+
+   		   		openModal("send");
    		   }
-   		   ,error:function(){alert('发生错误');}
+   		   ,error:function(){
+   		   		alert('发生错误');
+   		   	}
    		});
    		   /*form1.action="test/cityUserAction!saveAccess.action";
    		   document.form1.submit();
    		   window.parent.closeform();*/
+   	 }
+   	 
+   	 function clearSendMail(){
+   		$("#sendTo").val("");
+   		$("#copyTo").val("");
+   		$("#title").val("");
+   		$("#passwd").val("");
+   		$("#telePass").val("");
+   		$("#importantMail").val("");
+   		$("#encryptMethod").val("DES");
+
+   		var editor = CKEDITOR.instances.myarea;
+		editor.setData("");
+
+		//色彩处理 
+		$("#important").attr("class","btn btn-danger");
+		$("#lock").attr("class","btn btn-danger");
    	 }
    	 
    </script>
