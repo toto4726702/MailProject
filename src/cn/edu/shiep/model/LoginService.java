@@ -27,6 +27,8 @@ public class LoginService {
 		
 		//从数据库中取得用户登陆数据
 		name = name.split("@")[0];
+		String originpass = pass;
+		
 		LoginUser user = dao.getUserByName(name);
 		
 		//加密传入的password
@@ -51,7 +53,8 @@ public class LoginService {
 				System.out.println("LoginService:正确登陆");
 			}
 			map.put("islogin", "1");
-			map.put("loginname", name.split("@")[0]);
+			map.put("loginname", name);
+			map.put("password", originpass);
 			//map.put("userid", user.getUserid());
 			
 			map.put("result", ResultType.SUCCESS);

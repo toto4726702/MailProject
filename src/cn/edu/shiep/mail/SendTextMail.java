@@ -35,10 +35,9 @@ public class SendTextMail {
 	}
 	//·¢ËÍÓÊ¼ş
 	public boolean send(){
+		
 		Properties props = new Properties();
-		
 		props.put("mail.smtp.host", SMTPHost);
-		
 		props.put("mail.smtp.auth", "true");
 		
 		try{

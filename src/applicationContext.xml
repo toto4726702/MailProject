@@ -32,6 +32,29 @@
 	<!-- 启用AOP注解 -->
 	<aop:aspectj-autoproxy/>
 	
+	<!-- 读取Mail Properties文件 -->
+	<bean id="mailProperty"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>classpath:mail.properties</value>
+        </property>
+    </bean>
+    
+    <bean id="mailPropertyBean" class="cn.edu.shiep.utils.MailProperty">
+    	 <property name="smtpHost">
+            <value>${mail.smtp.host}</value>
+        </property>
+        <property name="smtpAuth">
+            <value>${mail.smtp.auth}</value>
+        </property>
+        <property name="transportProtocol">
+            <value>${mail.transport.protocol}</value>
+        </property>
+        <property name="storeProtocol">
+            <value>${mail.store.protocol}</value>
+        </property>
+    </bean>
+    
 	<!-- 注解方式@Transaction使用事务 -->
 	<!-- <tx:annotation-driven transaction-manager="transactionManager"/> -->
 	
