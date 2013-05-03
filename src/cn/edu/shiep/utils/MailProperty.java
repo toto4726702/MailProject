@@ -3,6 +3,7 @@ package cn.edu.shiep.utils;
 public class MailProperty {
 
 	private String smtpHost;
+	private String smtpApop3;
 	private String smtpAuth;
 	private String transportProtocol;
 	private String storeProtocol;
@@ -30,6 +31,15 @@ public class MailProperty {
 	}
 	public void setStoreProtocol(String storeProtocol) {
 		this.storeProtocol = storeProtocol;
+	}
+	
+	
+}
+public String getPop3Host() {
+		return pop3Host;
+	}
+	public void setPop3Host(String pop3Host) {
+		this.pop3Host = pop3Host;
 	}
 	
 	

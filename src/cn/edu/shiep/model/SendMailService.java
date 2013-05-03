@@ -1,5 +1,6 @@
 package cn.edu.shiep.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
@@ -13,6 +14,8 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.stereotype.Service;
 
+import cn.edu.shiep.dao.IMailDao;
+import cn.edu.shiep.entity.Mail;
 import cn.edu.shiep.mail.SmtpAuth;
 import cn.edu.shiep.utils.MailProperty;
 
@@ -21,6 +24,8 @@ public class SendMailService {
 	
 	@Resource(name="mailPropertyBean")
 	private MailProperty mailProperty;
+	@Resource(name="mailDaoImpl")
+	private IMailDao mailDao;
 	
 	//·¢ËÍÓÊ¼þ
 	public boolean sendJamesMail(String user, String password,Map<String,String> map){
@@ -67,5 +72,35 @@ public class SendMailService {
 		}
 		
 	}
+	
+	public void sendDBMail(Map<String, String> props){
+		Date now = new Date();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Mail mail = new Mail(props.get("sender"),props.get("sendTo"), props.get("copyTo"), props.get("title"),
+							 props.get("content"), "", format.format(now), "send", "unread", props.get("passwd"), 
+							 props.get("telepass"), props.get("importantMail"), props.get("encryptMethod"), null, null, null);
+		
+		mailDao.saveMail(mail);
+		
+		
+	}
+
+	public MailProperty getMailProperty() {
+		return mailProperty;
+	}
+
+	public void setMailProperty(MailProperty mailProperty) {
+		this.mailProperty = mailProperty;
+	}
+
+	public IMailDao getMailDao() {
+		return mailDao;
+	}
+
+	public void setMailDao(IMailDao mailDao) {
+		this.mailDao = mailDao;
+	}
+	
+	
 	
 }

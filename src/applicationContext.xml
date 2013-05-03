@@ -42,9 +42,11 @@
     
     <bean id="mailPropertyBean" class="cn.edu.shiep.utils.MailProperty">
     	 <property name="smtpHost">
+            <va<property name="smtpHost">
             <value>${mail.smtp.host}</value>
         </property>
-        <property name="smtpAuth">
+        <property name="pop3Host">
+            <value>${mail.pop3property name="smtpAuth">
             <value>${mail.smtp.auth}</value>
         </property>
         <property name="transportProtocol">
