@@ -156,4 +156,29 @@ public class Mail {
 	
 	
 	
+	@Override
+	public String toString() {
+		return "[mailid=" + mailid + ", sender=" + sender + ", sendTo="
+				+ sendTo + ", copyTo=" + copyTo + ", title=" + title
+				+ ", content=" + content + ", attachment=" + attachment
+				+ ", date=" + date + ", sendstatus=" + sendstatus
+				+ ", readstatus=" + readstatus + ", lockpass=" + lockpass
+				+ ", telepass=" + telepass + ", important=" + important
+				+ ", encrypt=" + encrypt + ", mark=" + mark + ", tags=" + tags
+				+ ", classified=" + classified + "]";
+	}
+
+
+
+	public String toJSONString(){
+		return "{'mailid':'" + mailid + "', 'sender':'" + sender + "', 'sendTo':'"
+				+ sendTo + "', 'copyTo':'" + copyTo + "', 'title':'" + title
+				+ "', 'content':'" + content.trim() + "', 'attachment':'" + attachment
+				+ "', 'date':'" + date + "', 'sendstatus':'" + sendstatus
+				+ "', 'readstatus':'" + readstatus + "', 'lockpass':'" + lockpass
+				+ "', 'telepass':'" + telepass + "', 'important':'" + important
+				+ "', 'encrypt':'" + encrypt + "', 'mark':'" + mark + "', 'tags':'" + tags
+				+ "', 'classified':'" + classified + "'}";
+	}
+	
 }

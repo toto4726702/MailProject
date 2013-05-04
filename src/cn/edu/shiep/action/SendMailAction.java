@@ -52,8 +52,9 @@ public class SendMailAction implements ServletResponseAware,ServletRequestAware{
 		props.put("importantMail", importantMail);
 		props.put("encryptMethod", encryptMethod);
 		
-		sendMailService.sendDBMail(props);
+		
 		Boolean retData = sendMailService.sendJamesMail(user, pass, props);
+		sendMailService.sendDBMail(props);
 		
 		try {
 			response.getOutputStream().write(retData.toString().getBytes());

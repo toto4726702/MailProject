@@ -67,7 +67,7 @@ public class SendMailService {
 		
 			return true;
 		}catch(Exception x){
-			x.printStackTrace();
+			System.out.println("SendMailService:James发送出现问题");
 			return false;
 		}
 		
