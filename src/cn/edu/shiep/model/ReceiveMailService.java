@@ -69,3 +69,23 @@ public class ReceiveMailService {
 	}
 	
 }
+	public void updateReadstatus(String mailid){
+		mailDao.updateReadstatus(mailid);
+	}
+	
+	public void updateImportant(String mailid,String important){
+		mailDao.updateImportant(mailid, important);
+	}
+	
+	public void updateMark(String mailid,String mark){
+		mailDao.updateMark(mailid, mark);
+	}
+	
+	public void setMailProperty(MailProperty mailProperty) {
+		this.mailProperty = mailProperty;
+	}
+	
+	public void setMailDao(IMailDao mailDao) {
+		this.mailDao = mailDao;
+	}
+}

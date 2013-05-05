@@ -18,4 +18,5 @@ PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
 
   <sqlMap resource="cn/edu/shiep/entity/LoginUserSql.xml"/>
   <sqlMap resource="cn/edu/shiep/entity/MailSql.xml"/>
+</sqlMapConfig>     <sqlMap resource="cn/edu/shiep/entity/ContacterSql.xml"/>
 </sqlMapConfig>   

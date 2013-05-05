@@ -10,3 +10,10 @@ public interface IMailDao {
 	
 	public List<Mail> receiveMail(String sendTo);
 }
+	
+	public void updateReadstatus(String mailid);
+	
+	public void updateImportant(String mailid,String important);
+	
+	public void updateMark(String mailid,String mark);
+}

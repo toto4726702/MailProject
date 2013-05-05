@@ -75,10 +75,10 @@ public class SendMailService {
 	
 	public void sendDBMail(Map<String, String> props){
 		Date now = new Date();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Mail mail = new Mail(props.get("sender"),props.get("sendTo"), props.get("copyTo"), props.get("title"),
 							 props.get("content"), "", format.format(now), "send", "unread", props.get("passwd"), 
-							 props.get("telepass"), props.get("importantMail"), props.get("encryptMethod"), null, null, null);
+							 props.get("telepass"), props.get("importantMail"), props.get("encryptMethod"), "false", null, null);
 		
 		mailDao.saveMail(mail);
 		

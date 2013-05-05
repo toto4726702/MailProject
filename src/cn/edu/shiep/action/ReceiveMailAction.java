@@ -22,7 +22,9 @@ public class ReceiveMailAction implements ServletResponseAware{
 	private String filter;
 	private String order;
 	
-	@Resource(name="receiveMailService")
+	@Resource(name="receiveMprivate String mailid;
+	private String mark;
+	private String importanteceiveMailService")
 	private ReceiveMailService receiveMailService;
 	tion(value="ajaxReceiveMailAction")
 	public void receiveMail(){
@@ -59,6 +61,30 @@ public class ReceiveMailAction implements ServletResponseAware{
 		return filter;
 	}
 
+	
+	@Action(value="ajaxUpdateReadstatusAction")
+	public void updateReadstatus() throws IOException{
+		
+		receiveMailService.updateReadstatus(mailid);
+		System.out.println("ReceiveMailAction:Readstatus Changed");
+	}
+
+	@Action(value="ajaxUpdateImportantAction")
+	public void updateImportant() throws IOException{
+		
+		receiveMailService.updateImportant(mailid,important);
+		System.out.println("ReceiveMailAction:Important Changed");
+
+	}
+	
+	@Action(value="ajaxUpdateMarkAction")
+	public void updateMark() throws IOException{
+		
+		receiveMailService.updateMark(mailid,mark);
+		System.out.println("ReceiveMailAction:Mark Changed");
+;
+	}
+
 	public void setFilter(String filter) {
 		this.filter = filter;
 	}
@@ -72,7 +98,28 @@ public class ReceiveMailAction implements ServletResponseAware{
 	}
 
 	@Override
-	public void setServletResponse(HttpServletResponse response) {
+	public void setServletResponse(HttpServletResponse responsepublic String getMailid() {
+		return mailid;
+	}
+
+	public void setMailid(String mailid) {
+		this.mailid = mailid;
+	}
+
+	public String getMark() {
+		return mark;
+	}
+
+	public void setMark(String mark) {
+		this.mark = mark;
+	}
+
+	public String getImportant() {
+		return important;
+	}
+
+	public void setImportant(String important) {
+		this.important = importante response) {
 		this.response = response;		
 	}
 	

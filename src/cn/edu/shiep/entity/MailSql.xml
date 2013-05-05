@@ -21,4 +21,23 @@
 	 		where sendTo like #sendTo#
 	 </select>
 
+</sqlMap>		 
+	 <update id="updateReadstatus"  parameterClass="String">
+	 		update mails
+	 		set readstatus = 'read'
+	 		where mailid = #mailid#
+	 </update>
+	 
+	 <update id="updateImportant"  parameterClass="java.util.HashMap">
+	 		update mails
+	 		set important = #important#
+	 		where mailid = #mailid#
+	 </update>
+	 
+	 <update id="updateMark"  parameterClass="java.util.HashMap">
+	 		update mails
+	 		set mark = #mark#
+	 		where mailid = #mailid#
+	 </update>
+
 </sqlMap>	
