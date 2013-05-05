@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 上面的是固定格式配置 -->
+<sqlMap>
+
+	 <typeAlias alias="Contacter" type="cn.edu.shiep.entity.Contacter" />
+	 <insert id="saveContacter"  parameterClass="Contacter">
+	 		insert into 
+	 		contacters  
+	 		values(#cid#,#owner#,#username#,#aliasname#,#sendcount#,
+	 		#receivetime#,#vipscore#)
+	 </insert>
+	 
+	 <select id="getHotContacter" parameterClass="java.util.HashMap" resultClass="Contacter">
+	 		select c.cid,c.owner,c.username,c.aliasname,IFNULL(da2.Send,0) sendcount,
+	 		       IFNULL(da1.Receive,0) receivetime,c.vipscore 
+			from mail.contacters c
+			left join 
+			(
+			    SELECT owner,username,count(mailid) as 'Receive'
+			    FROM mail.contacters co
+			    inner join mails ma1
+			    on ma1.sender = co.owner 
+			       and ma1.sendTo like concat('%',co.username,'%')
+			       and ma1.date >= #filter#
+			    group by owner,username
+			) da1
+			on c.owner = da1.owner and c.username = da1.username
+			left join(
+			    SELECT owner,username,count(mailid) as 'Send'
+			    FROM mail.contacters co
+			    inner join mails ma1
+			    on ma1.sendTo like concat('%',co.owner,'%')  
+			       and ma1.sender = co.username
+			       and ma1.date >= #filter#
+			    group by owner,username
+			) da2
+			on c.owner = da2.owner and c.username = da2.username
+			where c.owner = #owner#
+	 </select>
+	 
+	 <update id="addSendcount"  parameterClass="String">
+	 		update contacters
+	 		set sendcount = sendcount+1
+	 		where cid = #cid# 
+	 </update>
+	 
+	 <update id="addReceivetime"  parameterClass="String">
+	 		update contacters
+	 		set receivetime = receivetime+1
+	 		where cid = #cid#
+	 </update>
+
+</sqlMap>	
