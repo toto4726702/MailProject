@@ -160,7 +160,7 @@
 	         		 </a>
 	        	</div>
 	        	<div id="freshBtn"  >
-	         		 <a href="javascript:void(0);" class="btn btn-large btn-block btn-info">
+	         		 <a href="javascript:void(0);" class="btn btn-large btn-block btn-info" onclick="getMail('none','none')">
 	         		 <i class="icon-refresh icon-white" style="margin-top:3px;margin-right:5px;"></i>刷新
 	         		 </a>
 	        	</div>
@@ -184,6 +184,10 @@
 		           	     <a class="btn" onclick="openModal('setting')"><i class="fui-settings-16"></i> <span>设置</span></a>  
 	            		 <br/><br/>
 	            		 <input name="tagsinput" id="tagsinput" class="tagsinput" value="工作" style="display: none;">
+	            	</div>
+	            	<div id="maniReceiveMail" style="display: none;">
+	            	 	 <a class="btn btn-success" onclick="readToMain()"><i class="icon-chevron-left icon-white"></i> <span>返回</span></a>
+		           	     <br/><br/>
 	            	</div>       
 	            </div>
             </div>
@@ -295,6 +299,29 @@
 			     <textarea name="content" id="myarea"  class="span9"></textarea>
 		  	  </form>
   		</div>
+  		
+  		<div id="center-view-readmail" class="span9" style="display: none;">
+  			<div class="well well-small" id="sendToText">
+			  
+			</div>
+			
+			<div class="well well-small" id="titleText">
+			 
+			</div>
+			
+			<div class="well well-large" style="min-height: 280px;" id="contentText">
+  			  
+			</div>
+		     
+		     <a id="lock" class="btn btn-danger" onclick="openModal('lock')" ><i class="fui-lock-16"></i></a> 
+		     <a id="important" class="btn btn-danger" onclick="setImportant()"><i class="fui-heart-16"></i></a> 
+		     
+		     <input id="lockPass" name="lockPass" type="hidden" value="">
+		     <input id="importantMail" name="importantMail" type="hidden" value="false">
+		     <input id="encryptMethod" name="encryptMethod" type="hidden" value="DES">
+		     <br/><br/>
+  		</div>
+    
     
     	<div id="right-panel"  class="span4" style="margin-top: 0px;">
 	  		

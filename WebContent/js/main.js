@@ -1,3 +1,11 @@
+/**
+全局变量管理：
+mails:所有邮件内容
+nowMail:当前邮件内容
+mailLock：当前邮件解锁密码
+contacters:所有联系人
+**/
+
 //初始化UI控件 
    $(function(){
 
@@ -41,45 +49,104 @@
   	getMail("none","none");
   	
   	//初始化热度榜
-  	getContactHot();
-      
-   });
-  
-  /*
-  收取邮件业务方法区
+  	getContactHot//初始化联系人
+    getContacter("all");
+  	//初始化热度榜
+  	s取邮件业务方法区
   */
   function changeMark(no){
     var className = $("#mark"+no).attr("class");
+    //alernowMail = window.mails[no];
+    var className = $("#mark"+no).attr("class");
     //alert(className);
-    if(className=="icon-eye"){  //反转
-        $("#mark"+no).attr("class","icon-eye-open icon-white");
+    if(className=="icon-eye-openn-eye-open icon-white");
     }else{
-        $("#mark"+no).attr("class","icon-eye-open");
+        $("#mark"+no).attr("class","icon-eye-ope    //修改Mark
+        $.ajax({
+         url:'ajaxUpdateMarkAction'
+         ,type:'POST'
+         ,data:"mailid="+nowMail.mailid+"&mark=false"
+         ,success:function(data){
+            //修改前台数据
+            changeMails(no,"mark","false");
+         }
+         ,error:function(){
+            alert('发生错误');
+          }
+        });
+  -open");
     }
   }
 
   function changeImportant(no){
-    var className = $("#important"+no).attr("class");
-    //alert(className);
+    var className     //修改Mark
+        $.ajax({
+         url:'ajaxUpdateMarkAction'
+         ,type:'POST'
+         ,data:"mailid="+nowMail.mailid+"&mark=true"
+         ,success:function(data){
+            //修改前台数据
+            changeMails(no,"mark","true");
+         }
+         ,error:function(){
+            alert('发生错误');
+          }
+        });
+      }
+  }
+
+  function changeImportant(no){
+    var nowMail = window.mails[no];/alert(className);
     if(className=="icon-heart"){  //反转
         $("#important"+no).attr("class","icon-heart icon-white");
     }else{
         $("#important"+no).attr("class","icon-heart");
+       //修改important
+        $.ajax({
+         url:'ajaxUpdateImportantAction'
+         ,type:'POST'
+         ,data:"mailid="+nowMail.mailid+"&important=false"
+         ,success:function(data){
+            //修改前台数据
+            changeMails(no,"important","false");
+         }
+         ,error:function(){
+            alert('发生错误');
+          }
+        });
+
+    }else{
+        $("#important"+no).attr("class","icon-heart");
+        //修改important
+        $.ajax({
+         url:'ajaxUpdateImportantAction'
+         ,type:'POST'
+         ,data:"mailid="+nowMail.mailid+"&important=true"
+         ,success:function(data){
+            //修改前台数据
+            changeMails(no,"important","true");
+         }
+         ,error:function(){
+            alert('发生错误');
+          }
+        });
     }
   }
 
-  function checkLockPass(lockPass){
+  function checkLockPass(no){
+    //alert(no);
+    window.nowMail = window.mails[no];
+    var lockPass = window.nowMail.lockpass;
+    //alert(nowMail);
     lockPass = lockPass+"";
-    if(lockPass.length>=6){
+    if(lockPass.length>=6 && lockPass!="undefined"){
       window.mailLock = lockPass;
       openModal("checkLock");
     }else{
+      //预置参数
+      readMail();
       //直接打开邮件
-    }
-  }
-
-  function validateLockPass(){
-    var mailLock = window.mailLock;
+      mainToRead();k;
 	  var lockPass = $("#inputLockpass").val();
     //alert(mailLock);
     if(lockPass==mailLock){
@@ -92,7 +159,10 @@
   */
 
   //手机密码发送 
-  function checkTelePass(){
+  function ch  //预置参数
+      readMail();
+      //直接打开邮件
+      mainToRead(ction checkTelePass(){
   	var tele = $('#labelTelePass').attr("class");
   	if(tele=="checkbox"){
   		$('#inputTele').fadeIn('slow');
@@ -189,16 +259,16 @@
   	$("#center-view-inbox").fadeOut("slow",function(){
   		 $("#center-view-writemail").fadeIn("slow");
   	});
-  	 
-   }
-
-   function mainToRead(){
-    //工具栏转换 
-    $("#maniInbox").fadeOut("slow",function(){
-       $("#maniReceiveMail").fadeIn("slow");
-    });
-      
-    //主界面转换 
+       $("#maniReceiveMail").fadeOut("slow",function(){
+         $("#maniSendMail").fadeIn("slow");
+       });
+  	});
+  		
+  	//主界面转换 
+  	$("#center-view-inbox").fadeOut("slow",function(){
+      $("#center-view-readmail").fadeOut("slow",function(){
+       $("#center-view-writemail").fadeIn("slow");
+      }面转换 
     $("#center-view-inbox").fadeOut("slow",function(){
        $("#center-view-readmail").fadeIn("slow");
     });
@@ -214,6 +284,17 @@
   	   url:'ajaxReceiveMailAction'
   	   ,type:'GET'
   	   ,success:function(data){
+  
+   function readToMain(){
+    //工具栏转换 
+    $("#maniReceiveMail").fadeOut("slow",function(){
+       $("#maniInbox").fadeIn("slow");
+    });
+      
+    //主界面转换 
+    $("#center-view-readmail").fadeOut("slow",function(){
+       $("#center-view-inbox'
+  	   ,success:function(data){
   		  window.alert(data);
   		  var obj = eval('(' + data + ')');
   		  var mails = obj.mails;
@@ -223,16 +304,15 @@
   		  for(var i=0;i<mails.length;i++){
     			 $('#inboxTable').append("<tr>");
     			 //判断已读
-    			 if(mails[i].readstatus=="read"){
+    			 if(mails[i]      //添加到全局进行管理
+        window.mails = f(mails[i].readstatus=="read"){
             $('#inboxTable').append("<td><span class='label label-success' style='cursor:pointer;' onclick='checkLockPass("+mails[i].lockpass+")'>已读</span></td>");
     			 }else{
     				$('#inboxTable').append("<td><span class='label label-warning' style='cursor:pointer;' onclick='checkLockPass("+mails[i].lockpass+")'>未读</span></td>");
-    			 }
-           //发件人
+   i //发件人
            $('#inboxTable').append("<td>"+mails[i].sender+"</td>");
            //标题
-    			 $('#inboxTable').append("<td>"+mails[i].title+"</td>");
-           //内容摘要
+    			 $('#inboxTable').append("<td>"+mails[i].title+"</td>");i容摘要
            $('#inboxTable').append("<td>"+mails[i].content.substring(0,10)+"<span>...</span></td>");
            //时间
            $('#inboxTable').append("<td>"+mails[i].date+"</td>");
@@ -240,7 +320,7 @@
            if(mails[i].mark=="mark"){
             $('#inboxTable').append("<td><div class='well' style='background:#BDC3C7;padding:4px;display:inline;cursor:pointer;' onclick='changeMark("+i+")' ><i id='mark"+i+"' class='icon-eye-open'></i></div></td>");
            }else{
-            $('#inboxTable').append("<td><div class='well' style='background:#BDC3C7;padding:4px;display:inline;cursor:pointer;' onclick='changeMark("+i+")' ><i id='mark"+i+"' class='icon-eye-open icon-white'></i></div></td>");
+            $('#inboxTable').append("<td><div class='well' style='background:#BDC3C7;padding:4px;display:inline;cursor:pointer;' onclick='changeImpor"+i+")' ><i id='mark"+i+"' class='icon-eye-open icon-white'></i></div></td>");
            }
            //重要
            if(mails[i].important=="true"){
@@ -325,14 +405,55 @@
   	$("#title").val("");
   	$("#passwd").val("");
   	$("#telePass").val("");
-  	$("#importantMail").val("");
+  	$("#importantMail  ").val("");
   	$("#encryptMethod").val("DES");
 
   	var editor = CKEDITOR.instances.myarea;
   	editor.setData("");
 
   	//色彩处理 
-  	$("#important").attr("class","btn btn-danger");
+  	$("#i
+  function readMail(){
+    var nowMail = window.nowMail;
+    if(nowMail!="undefined"){
+      //修改已读
+      $.ajax({
+       url:'ajaxUpdateReadstatusAction'
+       ,type:'POST'
+       ,data:"mailid="+nowMail.mailid
+       ,success:function(data){
+          //alert("修改为已读");
+       }
+       ,error:function(){
+          alert('发生错误');
+        }
+      });
+      //注入数据
+      $("#sendToText").html("发送者: <b>"+nowMail.sendTo+"</b>");
+      $("#titleText").html("标题: "+nowMail.title);
+      $("#contentText").html(nowMail.content);
+    }else{
+      alert("非法登入!");
+    }
+  }
+
+  function getContacter(filter){
+       $.ajax({
+       url:'ajaxGetHotContacterAction?filter='+filter
+       ,type:'GET'
+       ,success:function(data){
+          window.alert(data);
+          //var obj = eval('(' + data + ')');
+          //var mails = obj.mails;
+          //添加到全局进行管理
+          //window.mails = mails;
+          //将邮件内容添加到div内部
+        }
+       ,error:function(){
+          alert('发生错误');
+        }
+      });
+$("#important").attr("class","btn btn-danger");
   	$("#lock").attr("class","btn btn-danger");
    }
    
@@ -354,7 +475,7 @@
  	       } , 
  	       { 
  	         "label" : "Group C" ,
- 	         "value" : -0
+ 	         "values : -0
  	       } , 
  	       { 
  	         "label" : "Group D" ,
@@ -460,5 +581,13 @@
    }
    
    
+
+     	  }
+   
+   //通用操纵前台mails数据的方法
+   function changeMails(no,prop,val){
+      window.alert(window.mails[no][prop]);
+      window.mails[no][prop] = val;
+   }
 
      	 
