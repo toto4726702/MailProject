@@ -85,7 +85,10 @@ public class ReceiveMailAction implements ServletResponseAware{
 ;
 	}
 
-	public void setFilter(String filter) {
+	public void setFilter(	
+	@Action(value="ajaxSmartPriorAction")
+	public void smartPrior(){
+		ilter(String filter) {
 		this.filter = filter;
 	}
 

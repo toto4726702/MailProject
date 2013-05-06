@@ -8,14 +8,14 @@ public class Contacter {
 	private String aliasname;
 	private int sendcount;
 	private int receivetime;
-	private int vipscore;
+	private int vipscofloa;
 	
 	public Contacter() {
 	}
 	
 	public Contacter(String cid, String owner, String username,
 			String aliasname, int sendcount, int receivetime, int vipscore) {
-		super();
+floasuper();
 		this.cid = cid;
 		this.owner = owner;
 		this.username = username;
@@ -64,12 +64,10 @@ public class Contacter {
 	public int getVipscore() {
 		return vipscore;
 	}
-	public void setVipscore(int vipscore) {
-		this.vipscore = vipscore;
+	public void setVipscfloat getVipscore() {
+		return vipscore;
 	}
-
-	@Override
-	public String toString() {
+	public void setVipscore(floatring toString() {
 		return "Contacter [cid=" + cid + ", owner=" + owner + ", username="
 				+ username + ", aliasname=" + aliasname + ", sendcount="
 				+ sendcount + ", receivetime=" + receivetime + ", vipscore="

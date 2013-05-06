@@ -1,5 +1,7 @@
 package cn.edu.shiep.entity;
 
+import cn.edu.shiep.utils.EncryptUtil;
+
 public class Mail {
 
 	private int mailid;
@@ -85,6 +87,13 @@ public class Mail {
 		return content;
 	}
 	public void setContent(String content) {
+		String c = null;
+		try {
+			c = EncryptUtil.decryptDES("429387498234".getBytes(), content.getBytes());
+			System.out.println("解密:"+c);
+		} catch (Exception e) {
+			System.out.println("解密开始");
+		}
 		this.content = content;
 	}
 	public String getAttachment() {

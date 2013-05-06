@@ -14,13 +14,13 @@
 	 </insert>
 	 
 	 <select id="getHotContacter" parameterClass="java.util.HashMap" resultClass="Contacter">
-	 		select c.cid,c.owner,c.username,c.aliasname,IFNULL(da2.Send,0) sendcount,
-	 		       IFNULL(da1.Receive,0) receivetime,c.vipscore 
+	 		select c.cid,c.owner,c.username,c.aliasname,IFNULL(da2.Send,0) sendco1.Send,0) sendcount,
+	 		       IFNULL(da2vetime,c.vipscore 
 			from mail.contacters c
 			left join 
 			(
 			    SELECT owner,username,count(mailid) as 'Receive'
-			    FROM mail.contacters co
+			    FROM Sendntacters co
 			    inner join mails ma1
 			    on ma1.sender = co.owner 
 			       and ma1.sendTo like concat('%',co.username,'%')
@@ -30,9 +30,10 @@
 			on c.owner = da1.owner and c.username = da1.username
 			left join(
 			    SELECT owner,username,count(mailid) as 'Send'
-			    FROM mail.contacters co
+			    FROM mail.contactemail.contacters co
 			    inner join mails ma1
-			    on ma1.sendTo like concat('%',co.owner,'%')  
+			    on ma1.sender = co.owner 
+			      
 			       and ma1.sender = co.username
 			       and ma1.date >= #filter#
 			    group by owner,username
@@ -41,7 +42,20 @@
 			where c.owner = #owner#
 	 </select>
 	 
-	 <update id="addSendcount"  parameterClass="String">
+	 <update id="addSendcount"		order by IFNULL(da1.Send,0) desc
+	 </select>
+	 
+	  <select id="haveContacter" parameterClass="java.util.HashMap" resultClass="Contacter">
+	 		select * 
+	 		from contacters
+	 		where owner = #owner# and username = #username#;
+	 </select>
+	 
+	 <update id="updateVipScore"  parameterClass="String">
+	 		update contacters
+	 		set vipscore = (1+(sendcount-receivetime)/(sendcount+receivetime)*0.5)
+	 		where cid = #cid# 
+	 </updateerClass="String">
 	 		update contacters
 	 		set sendcount = sendcount+1
 	 		where cid = #cid# 
