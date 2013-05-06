@@ -51,10 +51,7 @@ contacters:所有联系人
   	//初始化热度榜
   	getContactHot//初始化联系人
     getContacter("all");
-  	//初始化热度榜
-  	s取邮件业务方法区
-  */
-  function changeMark(no){
+  	//初始�  function changeMark(no){
     var className = $("#mark"+no).attr("class");
     //alernowMail = window.mails[no];
     var className = $("#mark"+no).attr("class");
@@ -165,7 +162,161 @@ contacters:所有联系人
       mainToRead(ction checkTelePass(){
   	var tele = $('#labelTelePass').attr("class");
   	if(tele=="checkbox"){
-  		$('#inputTele').fadeIn('slow');
+  		$('#inputTele').f邮件展示排序算法
+  */
+  function smartPrior(){
+    var mails = window.mails;
+    var contacters = window.contacters;
+    var orderMails = new Array(mails.length);
+    var vipscores = new Array(mails.length);
+    var flags = new Array(mails.length);
+    //进行邮件加权值计算
+    for(var i=0;i<mails.length;i++){
+      flags[i] = 0;
+      var vipscore = 0;
+      var addscore = 0;
+      var basescore = 1;
+      //找到邮件对应的联系人vipscore
+      for(var j=0;j<contacters.length;j++){
+        if(contacters[j].username==mails[i].sender){
+          vipscore = contacters[j].vipscore;
+        }
+      }
+      //计算邮件加权后的vipscore
+      //各种加权
+      if(mails[i].readstatus=="unread"){
+        addscore = addscore+0.2
+      }
+      if(mails[i].important=="true"){
+        addscore = addscore+0.2
+      }
+      if(mails[i].mark=="true"){
+        addscore = addscore+0.3
+      }
+      if(mails[i].lockpass.length>=6){
+        addscore = addscore+0.1
+      }
+      if(mails[i].classified=="trash"){
+        addscore = addscore-0.3
+      }
+      vipscore = vipscore*(basescore+addscore);
+      vipscores[i] = vipscore;
+    }
+    //alert(vipscores);
+    //进行排序
+    var pointer = 0;
+    var index = 0;
+    var max = 0;
+    var lastmax = 65535;
+    for(var i=0;i<vipscores.length;i++){
+
+      for(var j=0;j<vipscores.length;j++){
+        if(max<vipscores[j] && flags[j]==0){
+          max = vipscores[j];
+          pointer = j;
+        }
+      }
+      max = 0;
+      flags[pointer] = 1;
+      orderMails[index] = mails[pointer];
+      index++;
+    }
+
+    window.mails = orderMails;
+    //显示邮件数据
+    $('#inboxTable').fadeOut('slow',function(){
+      showMail();
+      $('#inboxTable').fadeIn("slow");
+    });
+    
+  }
+
+  function unreadPrior(){
+    var mails = window.mails;
+    var orderMails = new Array(mails.length);
+    //进行排序
+    var front = 0;
+    var back = mails.length-1;
+    for(var i=0;i<mails.length;i++){
+      if(mails[i].readstatus=="unread"){
+        orderMails[front] = mails[i];
+        front++;
+      }else{
+        orderMails[back] = mails[i];
+        back--;
+      }
+    }
+    window.mails = orderMails;
+    $('#inboxTable').fadeOut('slow',function(){
+      showMail();
+      $('#inboxTable').fadeIn("slow");
+    });
+  }
+
+  function lockPrior(){
+    var mails = window.mails;
+    var orderMails = new Array(mails.length);
+    //进行排序
+    var front = 0;
+    var back = mails.length-1;
+    for(var i=0;i<mails.length;i++){
+      if(mails[i].lockpass.length>=6){
+        orderMails[front] = mails[i];
+        front++;
+      }else{
+        orderMails[back] = mails[i];
+        back--;
+      }
+    }
+    window.mails = orderMails;
+    $('#inboxTable').fadeOut('slow',function(){
+      showMail();
+      $('#inboxTable').fadeIn("slow");
+    });
+  }
+
+  function markPrior(){
+    var mails = window.mails;
+    var orderMails = new Array(mails.length);
+    //进行排序
+    var front = 0;
+    var back = mails.length-1;
+    for(var i=0;i<mails.length;i++){
+      if(mails[i].mark=="true"){
+        orderMails[front] = mails[i];
+        front++;
+      }else{
+        orderMails[back] = mails[i];
+        back--;
+      }
+    }
+    window.mails = orderMails;
+    $('#inboxTable').fadeOut('slow',function(){
+      showMail();
+      $('#inboxTable').fadeIn("slow");
+    });
+  }
+
+  function importantPrior(){
+    var mails = window.mails;
+    var orderMails = new Array(mails.length);
+    //进行排序
+    var front = 0;
+    var back = mails.length-1;
+    for(var i=0;i<mails.length;i++){
+      if(mails[i].important=="true"){
+        orderMails[front] = mails[i];
+        front++;
+      }else{
+        orderMails[back] = mails[i];
+        back--;
+      }
+    }
+    window.mails = orderMails;
+    $('#inboxTable').fadeOut('slow',function(){
+      showMail();
+      $('#inboxTable').fadeIn("slow");
+    });$('#inputTele').fadeIn('slow');
   	}else{
   		$('#inputTele').fadeOut('slow');
   	}
@@ -296,7 +447,8 @@ contacters:所有联系人
        $("#center-view-inbox'
   	   ,success:function(data){
   		  window.alert(data);
-  		  var obj = eval('(' + data + ')');
+  		  var obj = eval('(' + dat//重新加载一下邮件数据
+       getMail("none","none");'(' + data + ')');
   		  var mails = obj.mails;
   		  //将邮件内容添加到div内部
         $('#inboxTable').empty();  //首先进行清空
@@ -304,21 +456,44 @@ contacters:所有联系人
   		  for(var i=0;i<mails.length;i++){
     			 $('#inboxTable').append("<tr>");
     			 //判断已读
-    			 if(mails[i]      //添加到全局进行管理
-        window.mails = f(mails[i].readstatus=="read"){
-            $('#inboxTable').append("<td><span class='label label-success' style='cursor:pointer;' onclick='checkLockPass("+mails[i].lockpass+")'>已读</span></td>");
-    			 }else{
-    				$('#inboxTable').append("<td><span class='label label-warning' style='cursor:pointer;' onclick='checkLockPass("+mails[i].lockpass+")'>未读</span></td>");
+    			 if(mails[i]      //添加�//window.alert(data);
+  		  var obj = eval('(' + data + ')');
+  		  var mails = obj.mails;
+        var unreadcount = 0'#inboxTable').append("<td><span class='label label-success' style='cursor:pointer;' onclick='checkLockPass("+mails[i].lockpass+")'>已读</sfadeOut('slow',function(){
+          showMail();
+          $('#inboxTable').fadeIn("slow");
+        });Mail = $("#importantMail").val();
+  	 var encryptMethod = $("#encryptMethod").val();
+  	 //获取编辑器的值 
+  	 var 
+   function showMail(){
+      var mails = window.mails;
+      var unreadcount = 0;
+
+      $('#inboxTable').empty();  //首先进行清空
+
+        for(var i=0;i<mails.length;i++){
+           $('#inboxTable').append("<tr>");
+           //判断已读
+          +mails[i].lockpass+")'>未读</span></td>");
    i //发件人
            $('#inboxTable').append("<td>"+mails[i].sender+"</td>");
            //标题
-    			 $('#inboxTable').append("<td>"+mails[i].title+"</td>");i容摘要
+    			 $('#inboxTable').append("<td>"+mai       }else{
+            ;i容摘要
            $('#inboxTable').append("<td>"+mails[i].content.substring(0,10)+"<span>...</span></td>");
            //时间
-           $('#inboxTable').append("<td>"+mails[i].date+"</td>");
+           $        unreadcount++;
+          inboxTable').append("<td>"+mails[i].date+"</td>");
            //星标
            if(mails[i].mark=="mark"){
-            $('#inboxTable').append("<td><div class='well' style='background:#BDC3C7;padding:4px;display:inline;cursor:pointer;' onclick='changeMark("+i+")' ><i id='mark"+i+"' class='icon-eye-open'></i></div></td>");
+            $      inboxTable').append("<td><div class='well' style='background:#BDC3C7;padding:4px;display:inline;if(mails[i].lockpass.length>=6){
+              //带锁时是不能看到的
+              $('#inboxTable').append("<td><span>内容被锁定</span></td>");
+           }else{
+              $('#inboxTable').append("<td>"+mails[i].content.substring(0,10)+"<span>...</span></td>");
+           }
+           ></div></td>");
            }else{
             $('#inboxTable').append("<td><div class='well' style='background:#BDC3C7;padding:4px;display:inline;cursor:pointer;' onclick='changeImpor"+i+")' ><i id='mark"+i+"' class='icon-eye-open icon-white'></i></div></td>");
            }
@@ -332,7 +507,7 @@ contacters:所有联系人
     			 if(mails[i].lockpass.length>=6){
             $('#inboxTable').append("<td><div class='well' style='background:#BDC3C7;padding:4px;display:inline;' ><i class='icon-lock'></i></div></td>");
            }else{
-            $('#inboxTable').append("<td><div class='well' style='background:#BDC3C7;padding:4px;display:inline;' ><i class='icon-lock icon-white'></i></div></td>");
+            $('#inboxTable').append("<td><div class='well' style='background:#BDC3C7;padding:4px;display:inline;' ><i class='icon-lock icon-white'></i><      v></td>");
            }
 
            $('#inboxTable').append("</tr>");
@@ -355,10 +530,9 @@ contacters:所有联系人
   	 var title = $("#title").val();
   	 var passwd = $("#passwd").val();
   	 var telePass = $("#telePass").val();
-  	 var importantMail = $("#importantMail").val();
-  	 var encryptMethod = $("#encryptMethod").val();
-  	 //获取编辑器的值 
-  	 var editor = CKEDITOR.instances.myarea;
+  	 var         }
+        //修改提示
+        $("#navbar-unread").html(unreadcount);  	 var editor = CKEDITOR.instances.myarea;
   	 var content = editor.getData();
   	 
   	 var senddata = "sendTo="+sendTo+"&copyTo="+copyTo+"&title="+title+"&content="+content+
@@ -446,21 +620,15 @@ contacters:所有联系人
           //var obj = eval('(' + data + ')');
           //var mails = obj.mails;
           //添加到全局进行管理
-          //window.mails = mails;
-          //将邮件内容添加到div内部
-        }
-       ,error:function(){
-          alert('发生错误');
-        }
-      });
-$("#important").attr("class","btn btn-danger");
-  	$("#lock").attr("class","btn btn-danger");
-   }
-   
-
-  function getContactHot(){
-
- 	 long_short_data = [ 
+//window.alert(data);
+          var obj = eval('(' + data + ')');
+          var contacters = obj.contacters;
+          //添加到全局进行管理
+          window.contacters = contacters;
+          //初始化热度榜
+          setContactHot();
+ dToText").html("发送者: <b>"+nowMail.sendTo+"</b>");
+      $("#titleText").html("标题: "+n[ 
  	   {
  	     key: '寄件',
  	     color: '#d62728',
@@ -484,81 +652,43 @@ $("#important").attr("class","btn btn-danger");
  	       {
  	         "label" : "Group E" ,
  	         "value" : -0
- 	       } , 
- 	       { 
- 	         "label" : "Group F" ,
- 	         "value" : -0
- 	       } , 
- 	       { 
- 	         "label" : "Group G" ,
- 	         "value" : -0
- 	       } , 
- 	       {
- 	         "label" : "Group H" ,
- 	         "value" : -0
- 	       }
- 	     ]
+   var contacters = window.contacters;
+   var leng = contacters.length;
+   var sendvalues = "["; 
+   var receivevalues = "[";
+   //加载数据
+   for(var i=0;i<leng;i++){
+      sendvalues = sendvalues+"{'label':'"+contacters[i].username+"','value':-"+contacters[i].sendcount+"}";
+      receivevalues = receivevalues+"{'label':'"+contacters[i].username+"','value':"+contacters[i].receivetime+"}";
+      if(i!=7){
+        sendvalues = sendvalues+",";
+        receivevalues = receivevalues+",";
+      }
+   }
+   for(var j=0;j<8-leng;j++){
+      sendvalues = sendvalues+"{'label':'么有"+j+"','value':0}";
+      receivevalues = receivevalues+"{'label':'么有"+j+"','value':0}";
+      if(j!=(7-leng)){
+        sendvalues = sendvalues+",";
+        receivevalues = receivevalues+",";
+      }
+   }
+   sendvalues = sendvalues+"]";
+   receivevalues = receivevalues+"]";
+
+   sendvalues = eval('(' + sendvalues + ')');
+   receivevalues = eval('(' + receivevalues + ')');
+
+ 	 long_short_data = [ 
+ 	   {
+ 	     key: '寄件',
+ 	     color: '#d62728',
+ 	     values: sendvalues
  	   },
  	   {
  	 	    key: '收件',
  	 	    color: '#d62728',
- 	 	    values: [
- 	 	      { 
- 	 	        "label" : "Vince" ,
- 	 	        "value" : 1
- 	 	      } , 
- 	 	      { 
- 	 	        "label" : "Group B" ,
- 	 	        "value" : 2
- 	 	      } , 
- 	 	      { 
- 	 	        "label" : "Group C" ,
- 	 	        "value" : 3
- 	 	      } , 
- 	 	      { 
- 	 	        "label" : "Group D" ,
- 	 	        "value" : 2
- 	 	      } , 
- 	 	      {
- 	 	        "label" : "Group E" ,
- 	 	        "value" : 1
- 	 	      } , 
- 	 	      { 
- 	 	        "label" : "Group F" ,
- 	 	        "value" : 2
- 	 	      } , 
- 	 	      { 
- 	 	        "label" : "Group G" ,
- 	 	        "value" : 3
- 	 	      } , 
- 	 	      {
- 	 	        "label" : "Group H" ,
- 	 	        "value" : 2
- 	 	      }
- 	 	    ]
- 	 	  }
- 	 ];
-
-
-
- 	 var chart;
- 	   nv.addGraph(function() {
- 	   chart = nv.models.multiBarHorizontalChart()
- 	       .x(function(d) { return d.label })
- 	       .y(function(d) { return d.value })
- 	       .margin({top: 30, right: 20, bottom: 50, left: 0})
- 	       //.showValues(true)
- 	       //.tooltips(false)
- 	       .barColor(d3.scale.category20().range())
- 	       .showControls(true);
-
- 	   chart.yAxis
- 	       .tickFormat(d3.format(',.2f'));
-
- 	   d3.select('#chart1 svg')
- 	       .datum(long_short_data)
- 	     .transition().duration(500)
- 	       .call(chart);
+ 	 	    values: receivevalues(chart);
 
  	   nv.utils.windowResize(chart.update);
 
@@ -590,4 +720,4 @@ $("#important").attr("class","btn btn-danger");
       window.mails[no][prop] = val;
    }
 
-     	 
+     	 //

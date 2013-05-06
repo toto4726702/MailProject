@@ -172,10 +172,21 @@
 	            </div>
 	            <div id="maniArea">
 	            	<div id="maniInbox">
-	            	 	 <a class="btn btn-success" onclick="sendMail()"><i class="fui-checkmark-16"></i> <span>发送</span></a>
+	            	 	 <a class="btn btn-success" onclick="smartPrior()"><i class="fui-checkmark-16"></i> <span>智能优先</span></a>
+		           	     <br/><br/>
+		           	     <div class="btn-group">
+						  <button class="btn btn-primary" onclick="unreadPrior()" style="width: 45px;height: 40px;" data-toggle="tooltip" title="未读优先"><i class="fui-new-16"></i></button>
+						  <button class="btn btn-primary" onclick="importantPrior()" style="width: 45px;height: 40px;" data-toggle="tooltip" title="重要优先"><i class="fui-heart-16"></i> </button>
+						  <button class="btn btn-primary" onclick="lockPrior()" style="width: 45px;height: 40px;" data-toggle="tooltip" title="加锁优先"><i class="fui-lock-16"></i> </button>
+						  <button class="btn btn-primary" onclick="markPrior()" style="width: 45px;height: 40px;" data-toggle="tooltip" title="标记优先"><i class="fui-eye-16"></i></button>
+						 </div>
+						 <br/><br/>
+		           	     <a class="btn btn-danger" ><i class="fui-cross-16"></i> <span>删除</span></a>
+		           	     <a class="btn" ><i class="fui-menu-16"></i> <span>分类</span></a>
 		           	     <br/><br/>
 	            	</div> 
 	            	<div id="maniSendMail" style="display: none;">
+	            	
 	            	 	 <a class="btn btn-success" onclick="sendMail()"><i class="fui-checkmark-16"></i> <span>发送</span></a>
 		           	     <br/><br/>
 		           	     <a class="btn" onclick="openModal('draft')"><i class="icon-folder-open icon-white"></i> <span>存为草稿</span></a>
@@ -208,14 +219,14 @@
                   <ul class="nav">
                   	<li>
                       <a href="#">
-                        	系统消息
+                        	系统数据
                         <span class="navbar-unread">1</span>
                       </a>
                     </li>
                     <li class="active">
                       <a href="#">
                         	收件箱
-                        <span class="navbar-unread">1</span>
+                        <span class="navbar-unread" id="navbar-unread">1</span>
                       </a>
                     </li>
                     <li>
@@ -312,13 +323,14 @@
 			<div class="well well-large" style="min-height: 280px;" id="contentText">
   			  
 			</div>
-		     
+		     <!--  
 		     <a id="lock" class="btn btn-danger" onclick="openModal('lock')" ><i class="fui-lock-16"></i></a> 
 		     <a id="important" class="btn btn-danger" onclick="setImportant()"><i class="fui-heart-16"></i></a> 
 		     
 		     <input id="lockPass" name="lockPass" type="hidden" value="">
 		     <input id="importantMail" name="importantMail" type="hidden" value="false">
 		     <input id="encryptMethod" name="encryptMethod" type="hidden" value="DES">
+		     -->
 		     <br/><br/>
   		</div>
     
@@ -326,7 +338,13 @@
     	<div id="right-panel"  class="span4" style="margin-top: 0px;">
 	  		
   			<h1 style="margin-bottom: 2px;">联系热度</h1>
-  			<span>按周   按月  按年 </span>
+  			<br/>
+  			<div class="btn-group" style="position: relative;left: 35px;">
+			  <button class="btn" onclick="getContacter('week')">一周</button>
+			  <button class="btn" onclick="getContacter('month')">一月 </button>
+			  <button class="btn" onclick="getContacter('year')">一年</button>
+			  <button class="btn" onclick="getContacter('all')">全部</button>
+			</div>
   			<div id="chart1">
 				<svg></svg>
 			</div>
