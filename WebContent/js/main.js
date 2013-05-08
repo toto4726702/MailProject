@@ -51,7 +51,214 @@ contacters:所有联系人
   	//初始化热度榜
   	getContactHot//初始化联系人
     getContacter("all");
-  	//初始�  function changeMark(no){
+  	//初始�  function cha
+  /*
+  数据可视化业务方法区
+  */
+  function returnIntro(){
+    $("#monthly-data").fadeOut("slow",function(){
+      $("#contacter-data").fadeOut("slow",function(){
+        $("#group-data").fadeOut("slow",function(){
+          var btn = document.getElementById("maniDataBtn");
+          btn.onclick = dataToMain;
+          $("#data-intro").fadeIn("slow");
+        });
+      });
+    });
+  }
+
+  function openMonthlyData(){
+    $("#data-intro").fadeOut("slow",function(){
+       var btn = document.getElementById("maniDataBtn");
+       btn.onclick = returnIntro;
+       setMonthlyData();
+       setMonthlyData2();
+       $("#monthly-data").fadeIn("slow");
+    }); 
+  }
+
+  function setMonthlyData(){
+    //获取数据
+    $.ajax({
+         url:'ajaxGetMonthlyAction'
+         ,type:'GET'据
+            changeMails(no,"important","true");
+         }
+         ,error:funcdata = eval('(' + data + ')');
+            var visualize_data = [ 
+            {
+                 key: '邮件信息',
+                 color: '#d62728',
+                 values: data
+               }
+            ];
+
+            nv.addGraph(function() {
+              var chart = nv.models.discreteBarChart()
+                  .x(function(d) { return d.label })
+                  .y(function(d) { return d.value })
+                  .staggerLabels(true)
+                  .tooltips(true)
+                  .showValues(true)
+
+              d3.select('#monthlyChart svg')
+                .datum(visualize_data)
+                .transition().duration(500)
+                .call(chart);
+              nv.utils.windowResize(chart.update);
+              return chart;
+            }错误');
+          }
+        });
+    }
+  }
+
+  function checkLockPass(no){
+    //alert(no);
+    wi});
+
+  }
+
+  function setMonthlyData2(){
+    //获取数据
+    $.ajax({
+         url:'ajaxGetMonthlyDayAction'
+         ,type:'GET'
+         ,success:function(data){
+            data = eval('(' + data + ')');
+            var visualize_data = [ 
+            {
+                 key: '邮件信息',
+                 color: '#d62728',
+                 values: data
+               }
+            ];
+
+            nv.addGraph(function() {
+              var chart = nv.models.discreteBarChart()
+                  .x(function(d) { return d.label })
+                  .y(function(d) { return d.value })
+                  .staggerLabels(true)
+                  .tooltips(true)
+                  .showValues(true)
+
+              d3.select('#monthlyChart2 svg')
+                .datum(visualize_data)
+                .transition().duration(500)
+                .call(chart);
+              nv.utils.windowResize(chart.update);
+              return chart;
+            }错误');
+          }
+        });
+    }
+  }
+
+  function checkLockPass(no){
+    //alert(no);
+    wi});
+
+  }
+
+  function openContacterData(){
+    $("#data-intro").fadeOut("slow",function(){
+       var btn = document.getElementById("maniDataBtn");
+       btn.onclick = returnIntro;
+       setContactReceiveData();
+       setContactVipData();
+       $("#contacter-data").fadeIn("slow");
+    }); 
+  }
+
+  function setContactReceiveData(){
+    //获取数据
+    $.ajax({
+         url:'ajaxGetContactReceiveAction'
+         ,type:'GET'
+         ,success:function(data){
+            //alert(data);
+            data = eval('(' + data + ')');
+            var visualize_data = [ 
+            {
+                 key: '联系人信息',
+                 color: '#d62728',
+                 values: data
+               }
+            ];
+
+            nv.addGraph(function() {
+              var chart = nv.models.discreteBarChart()
+                  .x(function(d) { return d.label })
+                  .y(function(d) { return d.value })
+                  .staggerLabels(true)
+                  .tooltips(true)
+                  .showValues(true)
+
+              d3.select('#contactReceiveChart svg')
+                .datum(visualize_data)
+                .transition().duration(500)
+                .call(chart);
+              nv.utils.windowResize(chart.update);
+              return chart;
+            }错误');
+          }
+        });
+    }
+  }
+
+  function checkLockPass(no){
+    //alert(no);
+    wi});
+  }
+
+  function setContactVipData(){
+    //获取数据
+    $.ajax({
+         url:'ajaxGetContactVipAction'
+         ,type:'GET'
+         ,success:function(data){
+            data = eval('(' + data + ')');
+            var visualize_data = [ 
+            {
+                 key: '联系人信息',
+                 color: '#d62728',
+                 values: data
+               }
+            ];
+
+            nv.addGraph(function() {
+              var chart = nv.models.discreteBarChart()
+                  .x(function(d) { return d.label })
+                  .y(function(d) { return d.value })
+                  .staggerLabels(true)
+                  .tooltips(true)
+                  .showValues(true)
+
+              d3.select('#contactVipChart svg')
+                .datum(visualize_data)
+                .transition().duration(500)
+                .call(chart);
+              nv.utils.windowResize(chart.update);
+              return chart;
+            }错误');
+          }
+        });
+    }
+  }
+
+  function checkLockPass(no){
+    //alert(no);
+    wi});
+  }
+
+  function openGroupData(){
+    $("#data-intro").fadeOut("slow",function(){
+       var btn = document.getElementById("maniDataBtn");
+       btn.onclick = returnIntro;
+       $("#group-data").fadeIn("slow");
+    }); 
+  }
+eMark(no){
     var className = $("#mark"+no).attr("class");
     //alernowMail = window.mails[no];
     var className = $("#mark"+no).attr("class");
@@ -416,11 +623,15 @@ contacters:所有联系人
   	});
   		
   	//主界面转换 
-  	$("#center-view-inbox").fadeOut("slow",function(){
-      $("#center-view-readmail").fadeOut("slow",function(){
-       $("#center-view-writemail").fadeIn("slow");
-      }面转换 
-    $("#center-view-inbox").fadeOut("slow",function(){
+  	$("#center-view-inbox").f$("#nav-inbox").attr("class","active");
+    $("#nav-data").attr("class","");
+  	//工具栏转换 
+  	  function readToMain(){
+    //工具栏转换 
+    $("#maniReceiveMail").fadOut("slow",function(){
+          $("#maniData").fadeOut("slow",function(){
+            $("#maniSendMail").fadeIn("slow");
+          }iew-inbox").fadeOut("slow",function(){
        $("#center-view-readmail").fadeIn("slow");
     });
    }
@@ -429,9 +640,9 @@ contacters:所有联系人
    数据加载和清除方法区 
    */
 
-   function getMail(filter,order){
-  	 //后台处理 
-  	 $.ajax({
+   function getMail(fi $("#center-view-data").fadeOut("slow",function(){
+          $("#center-view-writemail").fadeIn("slow");
+        }ax({
   	   url:'ajaxReceiveMailAction'
   	   ,type:'GET'
   	   ,success:function(data){
@@ -452,6 +663,35 @@ contacters:所有联系人
   		  var mails = obj.mails;
   		  //将邮件内容添加到div内部
         $('#inboxTable').empty();  //首先进行清空
+
+  		  for(var i=0;i<mails.length;i++){
+    			 $('#inboxTable').append("<
+   function mainToData(){
+    //nav样式转换
+    $("#nav-inbox").attr("class","");
+    $("#nav-data").attr("class","active");
+
+    //工具栏转换 
+    $("#maniInbox").fadeOut("slow",function(){
+       $("#maniDatal").fadeOut("slow",function(){
+       $("#maniInbox").fadeIn("slow");
+    });
+      
+    //主界面转换 
+    $("#center-view-readmail").fdata").fadeIn("slow");
+    });
+   }
+
+   function dataToMain(){
+    //nav样式转换
+    $("#nav-inbox").attr("class","active");
+    $("#nav-data").attr("class","");
+    //工具栏转换 
+    $("#maniDatavar obj = eval('(' + dat//重新加载一下邮件数据
+       getMail("none","none");'(' + data + ')');
+  		  var mails = obj.maildata").fadeOut("slow",function(){
+       //重新加载一下邮件数据
+       //�进行清空
 
   		  for(var i=0;i<mails.length;i++){
     			 $('#inboxTable').append("<tr>");
@@ -705,19 +945,23 @@ contacters:所有联系人
    */
 
    //通用打开Dialog的方法 
-   function openModal(modalName){
-   	$('#'+modalName+'Modal').modal('show');
-  	
-   }
-   
-   
+   fu  nv.addGraph(function() {
+   chart = nv.models.multiBarHorizontalChart()
+       .x(function(d) { return d.label })
+       .y(function(d) { return d.value })
+       .margin({top: 30, right: 20, bottom: 50, left: 0})
+       //.showValues(true)
+       //.tooltips(false)
+       .barColor(d3.scale.category20().range())
+       .showControls(true);
 
-     	  }
-   
-   //通用操纵前台mails数据的方法
-   function changeMails(no,prop,val){
-      window.alert(window.mails[no][prop]);
-      window.mails[no][prop] = val;
-   }
+   chart.yAxis
+       .tickFormat(d3.format(',.2f'));
 
-     	 //
+   d3.select('#hotChart svg')
+       .datum(long_short_data)
+     .transition().duration(500)
+       .call(chart);
+
+   nv.utils.windowResize(chart.update);
+

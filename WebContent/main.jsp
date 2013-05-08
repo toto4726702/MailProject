@@ -17,6 +17,7 @@
 	<link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/flat-ui.css" rel="stylesheet">
     <link href="css/nv.d3.css" rel="stylesheet">
+    <link href="css/myd3.css" rel="stylesheet">
     <link rel="shortcut icon" href="images/favicon.ico">
     <!-- Loading Fitable UI -->
 	<link href="${pageContext.request.contextPath}/css/global.css" rel="stylesheet" type="text/css" />
@@ -49,7 +50,7 @@
 		}
 		
 		#freshBtn a{
-			width:85px;
+			width:80px;
 		}
 		
 		#maniMenu{
@@ -101,7 +102,7 @@
 			bottom:80px;
 		}
 		
-		#chart1 {
+		#hotChart {
 		  margin: 10px;
 		  min-width: 100px;
 		  min-height: 100px;
@@ -112,10 +113,25 @@
 		*/
 		}
 		
-		#chart1 svg {
+		#hotChart svg {
 		  height: 500px;
 		}
 		
+		#monthlyChart svg {
+		  height: 300px;
+		}
+		
+		#monthlyChart2 svg {
+		  height: 300px;
+		}
+		
+		#contactReceiveChart svg{
+			height: 300px;
+		}
+		
+		#contactVipChart svg{
+			height: 300px;
+		}
 		
 	</style>
 </head>
@@ -134,7 +150,6 @@
 			<div class="nav-collapse">
 				<ul class="nav">
 					<li class="active"><a href="${pageContext.request.contextPath}/mainAction">邮箱管理</a></li>
-					<li ><a href="${pageContext.request.contextPath}/mainAction">数据分析</a></li>
 					<li ><a href="${pageContext.request.contextPath}/mainAction">用户资料</a></li>
 					<li ><a href="${pageContext.request.contextPath}/mainAction">帮助</a></li>
 					<li ><a href="${pageContext.request.contextPath}/login.jsp">登出</a></li>
@@ -182,6 +197,7 @@
 						 </div>
 						 <br/><br/>
 		           	     <a class="btn btn-danger" ><i class="fui-cross-16"></i> <span>删除</span></a>
+		           	     <br/><br/>
 		           	     <a class="btn" ><i class="fui-menu-16"></i> <span>分类</span></a>
 		           	     <br/><br/>
 	            	</div> 
@@ -192,6 +208,7 @@
 		           	     <a class="btn" onclick="openModal('draft')"><i class="icon-folder-open icon-white"></i> <span>存为草稿</span></a>
 		           	     <br/><br/>
 		           	     <a class="btn btn-danger" onclick="sendToMain();clearSendMail();"><i class="icon-fire icon-white"></i> <span>舍弃</span></a>
+		           	     <br/><br/>
 		           	     <a class="btn" onclick="openModal('setting')"><i class="fui-settings-16"></i> <span>设置</span></a>  
 	            		 <br/><br/>
 	            		 <input name="tagsinput" id="tagsinput" class="tagsinput" value="工作" style="display: none;">
@@ -199,7 +216,11 @@
 	            	<div id="maniReceiveMail" style="display: none;">
 	            	 	 <a class="btn btn-success" onclick="readToMain()"><i class="icon-chevron-left icon-white"></i> <span>返回</span></a>
 		           	     <br/><br/>
-	            	</div>       
+	            	</div>     
+	            	<div id="maniData" style="display: none;">
+	            	 	 <a id="maniDataBtn" class="btn btn-success" onclick="dataToMain()"><i class="icon-chevron-left icon-white"></i> <span>返回</span></a>
+		           	     <br/><br/>
+	            	</div>     
 	            </div>
             </div>
   			<br/>
@@ -217,14 +238,14 @@
                 </button>
                 <div class="nav-collapse collapse">
                   <ul class="nav">
-                  	<li>
-                      <a href="#">
+                  	<li id="nav-data">
+                      <a href="javascript:void(0);" onclick="mainToData()">
                         	系统数据
                         <span class="navbar-unread">1</span>
                       </a>
                     </li>
-                    <li class="active">
-                      <a href="#">
+                    <li id="nav-inbox" class="active">
+                      <a href="javascript:void(0);" >
                         	收件箱
                         <span class="navbar-unread" id="navbar-unread">1</span>
                       </a>
@@ -261,6 +282,63 @@
             </div>
           </div>
         </div>
+  		
+  		<div id="center-view-data" class="span9" style="display: none;">
+  			<div id="data-intro">
+		  		<div class="span3" style="width: 200px;">
+		          <div class="tile">
+		            <img class="tile-image big-illustration" alt="" src="images/illustrations/time.png">
+		            <h3 class="tile-title">我的月报</h3>
+		            <p>一个月内邮件收发的情况.</p>
+		            <a class="btn btn-primary btn-large btn-block" href="javascript:void(0);" onclick="openMonthlyData()">查阅</a>
+		          </div>
+		        </div>
+		        <div class="span3" style="width: 200px;">
+		          <div class="tile">
+		            <img class="tile-image big-illustration" alt="" src="images/illustrations/colors.png">
+		            <h3 class="tile-title">联系总汇</h3>
+		            <p>看看和联系人的紧密程度.</p>
+		            <a class="btn btn-primary btn-large btn-block" href="javascript:void(0);" onclick="openContacterData()">查阅</a>
+		          </div>
+		        </div>
+		        <div class="span3" style="width: 200px;">
+		          <div class="tile">
+		            <img class="tile-image big-illustration" alt="" src="images/illustrations/map.png">
+		            <h3 class="tile-title">邮件圈子</h3>
+		            <p>这个圈子,你我他.</p>
+		            <a class="btn btn-primary btn-large btn-block" href="javascript:void(0);" onclick="openGroupData()">查阅</a>
+		          </div>
+		        </div>
+	        </div>
+	        <div id="monthly-data" style="display: none;">
+	        	<h2>一个月中按星期分布的邮件</h2>
+	        	<div id="monthlyChart">
+					<svg></svg>
+				</div>
+				<br/><br/>
+				<h2>一个月中按时间段分布的邮件</h2>
+	        	<div id="monthlyChart2">
+					<svg></svg>
+				</div>
+	        </div>
+	        <div id="contacter-data" style="display: none;">
+	        	<h2>联系人收到邮件的百分比</h2>
+	        	<div id="contactReceiveChart">
+					<svg></svg>
+				</div>
+				<br/><br/>
+				<h2>联系人按VIP分数排名</h2>
+	        	<div id="contactVipChart">
+					<svg></svg>
+				</div>
+	        </div>
+	        <div id="group-data" style="display: none;">
+	        	<h1>我的圈子</h1>
+	        	<br/>
+	        	<div id="group" style="border: 1px solid #95A5A6">
+	        	</div>
+	        </div>
+  		</div>
   		
   		<div id="center-view-inbox" class="span9" >
 	  		  <div class="pagination" style="margin-top: 0px; margin-bottom: 13px;"> 
@@ -345,7 +423,7 @@
 			  <button class="btn" onclick="getContacter('year')">一年</button>
 			  <button class="btn" onclick="getContacter('all')">全部</button>
 			</div>
-  			<div id="chart1">
+  			<div id="hotChart">
 				<svg></svg>
 			</div>
 		      
@@ -478,6 +556,9 @@
    <script src="js/jquery.tagsinput.js"></script>
    <!-- 独立业务JS -->
    <script src="js/main.js"></script>
+   <!-- Loading D3.js -->
+   <%-- <script src="js/d3.js"></script>
+   <script src="js/myd3.js"></script> --%>
   </body>
 
 </html>
