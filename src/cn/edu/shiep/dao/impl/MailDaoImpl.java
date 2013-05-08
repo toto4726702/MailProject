@@ -81,6 +81,30 @@ public class MailDaoImpl implements IMailDao {
 	
 	@Test
 	public void testUpdateMark(){
+		SuppressWarnings("unchecked")
+	@Override
+	public List<Mail> getMonthlyMail(String username, String monthdate) {
+		SqlMapClient client = SqlMapUtil.getSqlMapClient();
+		try {
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("username1", "%"+username+"%");
+			map.put("username2", username);
+			map.put("monthdate", monthdate);
+			List<Mail> mails = client.queryForList("getMonthlyMail", mapeption e) {
+			e.printStackTrace();
+			return new ArrayList<Mail>();
+		}		
+	}
+	
+	@Test
+	public void testSaveMail(){
+	}
+	
+	@Test
+	public void testGetMonthlyMail(){
+		System.out.println(this.getMonthlyMail("crusss", "2013-04-04"));
+	}
+	k(){
 		this.updateMark("15", "false");
 	}
 	

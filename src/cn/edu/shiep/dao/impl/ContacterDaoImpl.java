@@ -30,6 +30,29 @@ public class ContacterDaoImpl implements IContacterDao{
 	
 	@SuppressWarnings("unchecked")
 	@Override
+	public List<Contacter> getHotContacter(String owner, StrinAll(Client client = SqlMapUtil.getSqlMapClient();
+		try {
+			client.update("List<Contacter> list = client.queryForList("getAll"tion e) {
+			e.printStackTrace();
+			return new ArrayList<Contacter>();
+		}
+	}
+	
+	@Test
+	public void testGetHotContacter(){
+		SysSuppressWarnings("unchecked")
+	@Override
+	public List<Contacter> getAllContacter(String ownerClient client = SqlMapUtil.getSqlMapClient();
+		try {
+			client.update("List<Contacter> list = client.queryForList("getAllContacter", ownertion e) {
+			e.printStackTrace();
+			return new ArrayList<Contacter>();
+		}
+	}
+	
+	@Test
+	public void testGetHotContacter(){
+		Sys	@Override
 	public List<Contacter> getHotContacter(String owner, String filter) {
 		SqlMapClient client = SqlMapUtil.getSqlMapClient();
 		Map<String, String> map = new HashMap<String, String>();
@@ -94,6 +117,8 @@ public class ContacterDaoImpl implements IContacterDao{
 	
 	@Test
 	public void testUpdateVipScore(){
+		this.updateVipScore("2GetAllContacter(){
+		System.out.println(this.getAllContacter("vince"));pScore(){
 		this.updateVipScore("2");
 	}
 	

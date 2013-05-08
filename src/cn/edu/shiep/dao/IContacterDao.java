@@ -10,6 +10,10 @@ public interface IContacterDao {
 	
 	public List<ContaContacter haveContacter(String owner,String username);
 	
+	public voList<Contacter> getAll();
+	
+	public List<Contacter> getAllContacter(String owner);
+	
 	public void addSendcount(String cid);
 	
 	public void addReceivetime(String cid);

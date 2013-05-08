@@ -13,7 +13,17 @@
 	 		#receivetime#,#vipscore#)
 	 </insert>
 	 
-	 <select id="getHotContacter" parameterClass="java.util.HashMap" resultClass="Contacter">
+	 <select id="getHotContacter" pAll" resultClass="Contacter">
+	 		select *
+			from contacters c
+	 </select>
+	 
+	 <select id="getAllContacter" parameterClass="String" resultClass="Contacter">
+	 		select *
+			from contacters c
+			where c.owner = #owner#
+			order by vipscore desc
+	 </selecct id="getHotContacter" parameterClass="java.util.HashMap" resultClass="Contacter">
 	 		select c.cid,c.owner,c.username,c.aliasname,IFNULL(da2.Send,0) sendco1.Send,0) sendcount,
 	 		       IFNULL(da2vetime,c.vipscore 
 			from mail.contacters c

@@ -22,6 +22,13 @@
 	 </select>
 
 </sqlMap>		 
+	 <update id="uselect id="getMonthlyMail" parameterClass="java.util.HashMap" resultClass="Mail">
+	 		select * 
+	 		from mails
+	 		where 
+	 		(sendTo like #username1# or sender = #username2#)
+	 		 and
+	 		date >= #monthdateMap>		 
 	 <update id="updateReadstatus"  parameterClass="String">
 	 		update mails
 	 		set readstatus = 'read'

@@ -11,7 +11,7 @@ public interface IMailDao {
 	public List<Mail> receiveMail(String sendTo);
 }
 	
-	public void updateReadstatus(String mailid);
+	public void updatList<Mail> getMonthlyMail(String username,String monthdateblic void updateReadstatus(String mailid);
 	
 	public void updateImportant(String mailid,String important);
 	
